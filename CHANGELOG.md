@@ -14,6 +14,9 @@ way to update this template, but currently, we follow a pattern:
 
 ## Upcoming version 2018-XX-XX
 
+- [change] Extract SectionBooking to a distinct component from ListingPage.
+  [#969](https://github.com/sharetribe/flex-template-web/pull/969)
+
 ## [v2.5.0] 2018-12-17
 
 - [add] Add French translations to recently added translation keys. Also few minor changes to
