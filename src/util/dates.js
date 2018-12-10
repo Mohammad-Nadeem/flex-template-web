@@ -57,6 +57,20 @@ export const dateFromLocalToAPI = date => {
   return momentInLocalTimezone.toDate();
 };
 
+// export const localDateToUTCStartOfDay = date =>  {
+//   return moment(date)
+//     .utc()
+//     .startOf('day')
+//     .toDate();
+// };
+
+// export const localDateToUTCStartOfDay = date =>  {
+//   return moment(date)
+//     .utc()
+//     .startOf('day')
+//     .toDate();
+// };
+
 /**
  * Calculate the number of nights between the given dates
  *
@@ -93,6 +107,15 @@ export const daysBetween = (startDate, endDate) => {
   }
   return days;
 };
+
+/**
+ * Format the given date
+ *
+ * @param {Date} date to be formatted
+ *
+ * @returns {String} formatted month string
+ */
+export const monthIdString = date => moment(date).format('YYYY-MM');
 
 /**
  * Format the given date

@@ -1,0 +1,231 @@
+@import '../../marketplace.css';
+
+:root {
+  --ManageAvailabilityCalendar: #d2d2d2;
+}
+
+.root {
+  @apply --marketplaceH5FontStyles;
+  margin-top: 0;
+  margin-bottom: 0;
+  overflow-x: hidden;
+  z-index: 0;
+
+  & :global(.CalendarMonth_caption) {
+    @apply --marketplaceH2FontStyles;
+    text-align: left;
+    padding-bottom: 45px;
+
+    margin-left: 80px;
+    margin-top: 0;
+    margin-bottom: 0;
+
+    & strong {
+      font-weight: 500;
+      letter-spacing: 0.2px;
+    }
+  }
+
+  & :global(.DayPicker) {
+    box-shadow: none;
+  }
+
+  & :global(.DayPicker__horizontal) {
+    background-color: transparent;
+    margin-left: -22px;
+  }
+
+  & :global(.DayPicker_week-header) {
+    top: 55px;
+
+    & small {
+      font-size: 13px;
+      font-weight: 500;
+    }
+  }
+
+  & :global(.DayPickerNavigation_leftButton__horizontal),
+  & :global(.DayPickerNavigation_rightButton__horizontal) {
+    padding: 12px;
+    border: solid 1px #e6e6e6;
+    background-color: var(--matterColorBright);
+
+    &:hover {
+      & svg {
+        fill: #000;
+      }
+    }
+    &:focus {
+      outline-offset: -4px;
+    }
+  }
+
+  & :global(.DayPickerNavigation_leftButton__horizontal) {
+    border-top-left-radius: 2px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 2px;
+  }
+
+  & :global(.DayPickerNavigation_rightButton__horizontal) {
+    /* The navigation arrows have 9px padding. Add -9px margin to
+    align the arrows with the calendar */
+    left: 56px;
+    right: unset;
+    border-top-left-radius: 0;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 0;
+  }
+
+  & :global(.CalendarMonthGrid) {
+    background-color: transparent;
+  }
+
+  & :global(.CalendarMonth) {
+    background-color: transparent;
+  }
+
+  & :global(.CalendarMonth_table) {
+    border: 1px solid var(--ManageAvailabilityCalendar);
+  }
+
+  & :global(.CalendarDay__default) {
+    border: 0;
+    background-color: var(--ManageAvailabilityCalendar);
+
+    &:hover {
+      border: 0;
+      background-color: var(--ManageAvailabilityCalendar);
+    }
+  }
+
+  & :global(.CalendarDay__selected) {
+    color: var(--matterColor);
+  }
+
+  & :global(.DayPickerKeyboardShortcuts_show__bottomRight) {
+    right: -20px;
+  }
+}
+
+@media (--viewportMedium) {
+  .root {
+    margin-top: 0;
+    margin-bottom: 0;
+
+    & :global(.DayPickerNavigation_leftButton__horizontal),
+    & :global(.DayPickerNavigation_rightButton__horizontal) {
+      background-color: var(--matterColorLight);
+    }
+  }
+}
+
+@media (--viewportLarge) {
+  .root {
+    & :global(.DayPickerNavigation_leftButton__horizontal),
+    & :global(.DayPickerNavigation_rightButton__horizontal) {
+      background-color: var(--matterColorLight);
+    }
+  }
+}
+
+.dayWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.day {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 8px;
+
+  &:hover {
+  }
+}
+
+.dayNumber {
+  font-size: 14px;
+  line-height: 14px;
+}
+
+.default {
+  composes: day;
+  background-color: white;
+}
+
+.past {
+  composes: day;
+  background-color: #e6e6e6;
+
+  & .dayNumber {
+    text-decoration: line-through;
+    color: lightgrey;
+  }
+}
+
+.today {
+  composes: day;
+  background-color: white;
+
+  & .dayNumber {
+    text-decoration: underline;
+  }
+}
+
+.blocked {
+  composes: day;
+  background-color: #e6e6e6;
+}
+
+.reserved {
+  composes: day;
+  background-color: #e0f8e7;
+}
+
+.inProgress {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -14px;
+  margin-left: -14px;
+
+  width: 28px;
+  height: 28px;
+  stroke: var(--marketplaceColor);
+  stroke-width: 3px;
+}
+
+.exceptionError {
+  opacity: 1;
+
+  /* Animation */
+  animation-name: errored;
+  animation-duration: 800ms;
+  animation-iteration-count: 1;
+  animation-timing-function: ease;
+}
+
+@keyframes errored {
+  0% {
+  }
+
+  30%,
+  70% {
+    background-color: #ffcccc;
+    /*    opacity: 0.2;*/
+  }
+
+  100% {
+  }
+}
+
+.rootNextMonthIcon,
+.rootPreviousMonthIcon {
+  stroke: var(--matterColor);
+  fill: var(--matterColor);
+}
