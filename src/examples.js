@@ -15,6 +15,7 @@ import * as FieldDateInput from './components/FieldDateInput/FieldDateInput.exam
 import * as FieldDateRangeController from './components/FieldDateRangeController/FieldDateRangeController.example';
 import * as FieldDateRangeInput from './components/FieldDateRangeInput/FieldDateRangeInput.example';
 import * as FieldPhoneNumberInput from './components/FieldPhoneNumberInput/FieldPhoneNumberInput.example';
+import * as FieldRadioButton from './components/FieldRadioButton/FieldRadioButton.example';
 import * as FieldRangeSlider from './components/FieldRangeSlider/FieldRangeSlider.example';
 import * as FieldReviewRating from './components/FieldReviewRating/FieldReviewRating.example';
 import * as FieldSelect from './components/FieldSelect/FieldSelect.example';
@@ -114,6 +115,7 @@ export {
   FieldDateInput,
   FieldDateRangeInput,
   FieldPhoneNumberInput,
+  FieldRadioButton,
   FieldRangeSlider,
   FieldReviewRating,
   FieldSelect,
