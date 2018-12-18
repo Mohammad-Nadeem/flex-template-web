@@ -5,17 +5,15 @@ import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { Form as FinalForm } from 'react-final-form';
 import classNames from 'classnames';
 import config from '../../config';
-import {
-  Button,
-  ExternalLink,
-  FieldRadioButton,
-  Form,
-} from '../../components';
+import { Button, ExternalLink, FieldRadioButton, FieldSelect, Form } from '../../components';
 import { isStripeInvalidPostalCode } from '../../util/errors';
+import * as validators from '../../util/validators';
 
 import PayoutDetailsFormCompany from './PayoutDetailsFormCompany';
 import PayoutDetailsFormIndividual from './PayoutDetailsFormIndividual';
 import css from './PayoutDetailsForm.css';
+
+const supportedCountries = config.stripe.supportedCountries.map(c => c.code);
 
 export const stripeCountryConfigs = countryCode => {
   const country = config.stripe.supportedCountries.find(c => c.code === countryCode);
@@ -44,22 +42,36 @@ const PayoutDetailsFormComponent = props => (
         values,
       } = fieldRenderProps;
 
+      const { country } = values;
+
       const individualAccountLabel = intl.formatMessage({
         id: 'PayoutDetailsForm.individualAccount',
       });
 
-      const companyAccountLabel = intl.formatMessage({ id: 'PayoutDetailsForm.companyAccount' })
+      const companyAccountLabel = intl.formatMessage({ id: 'PayoutDetailsForm.companyAccount' });
+
+      const countryLabel = intl.formatMessage({ id: 'PayoutDetailsForm.countryLabel' });
+      const countryPlaceholder = intl.formatMessage({
+        id: 'PayoutDetailsForm.countryPlaceholder',
+      });
+      const countryRequired = validators.required(
+        intl.formatMessage({
+          id: 'PayoutDetailsForm.countryRequired',
+        })
+      );
 
       const classes = classNames(css.root, className, {
         [css.disabled]: disabled,
       });
-      
+
       const submitInProgress = inProgress;
       const submitDisabled = pristine || invalid || disabled || submitInProgress;
       const showAsRequired = pristine;
 
+      const showIndividual = country && values.accountType && values.accountType === 'individual';
+      const showCompany = country && values.accountType && values.accountType === 'company';
+
       let error = null;
-    
 
       if (isStripeInvalidPostalCode(createStripeAccountError)) {
         error = (
@@ -105,34 +117,59 @@ const PayoutDetailsFormComponent = props => (
             </div>
           </div>
 
-          {values.accountType && values.accountType === 'individual' ? (
-            <PayoutDetailsFormIndividual fieldRenderProps={fieldRenderProps} />
-          ) : values.accountType && values.accountType === 'company' ? (
-            <PayoutDetailsFormCompany fieldRenderProps={fieldRenderProps} />
+          {values.accountType ? (
+            <React.Fragment>
+              <div className={css.sectionContainer}>
+                <h3 className={css.subTitle}>Country</h3>
+                <FieldSelect
+                  id="country"
+                  name="country"
+                  disabled={disabled}
+                  className={css.selectCountry}
+                  autoComplete="country"
+                  label={countryLabel}
+                  validate={countryRequired}
+                >
+                  <option disabled value="">
+                    {countryPlaceholder}
+                  </option>
+                  {supportedCountries.map(c => (
+                    <option key={c} value={c}>
+                      {intl.formatMessage({ id: `PayoutDetailsForm.countryNames.${c}` })}
+                    </option>
+                  ))}
+                </FieldSelect>
+              </div>
+
+              {showIndividual ? (
+                <PayoutDetailsFormIndividual fieldRenderProps={fieldRenderProps} />
+              ) : showCompany ? (
+                <PayoutDetailsFormCompany fieldRenderProps={fieldRenderProps} />
+              ) : null}
+
+              {error}
+
+              <p className={css.termsText}>
+                <FormattedMessage
+                  id="PayoutDetailsForm.stripeToSText"
+                  values={{ stripeConnectedAccountTermsLink }}
+                />
+              </p>
+              <Button
+                className={css.submitButton}
+                type="submit"
+                inProgress={submitInProgress}
+                disabled={submitDisabled}
+                ready={ready}
+              >
+                {submitButtonText ? (
+                  submitButtonText
+                ) : (
+                  <FormattedMessage id="PayoutDetailsForm.submitButtonText" />
+                )}
+              </Button>
+            </React.Fragment>
           ) : null}
-
-
-      {error}
-
-<p className={css.termsText}>
-  <FormattedMessage
-    id="PayoutDetailsForm.stripeToSText"
-    values={{ stripeConnectedAccountTermsLink }}
-  />
-</p>
-<Button
-  className={css.submitButton}
-  type="submit"
-  inProgress={submitInProgress}
-  disabled={submitDisabled}
-  ready={ready}
->
-  {submitButtonText ? (
-    submitButtonText
-  ) : (
-    <FormattedMessage id="PayoutDetailsForm.submitButtonText" />
-  )}
-</Button>
         </Form>
       );
     }}
