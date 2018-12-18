@@ -14,6 +14,8 @@ way to update this template, but currently, we follow a pattern:
 
 ## Upcoming version 2018-XX-XX
 
+- [add] Enable booking a listing straight from an enquiry
+  [#976](https://github.com/sharetribe/flex-template-web/pull/976)
 - [change] Extract SectionBooking to a distinct component from ListingPage.
   [#969](https://github.com/sharetribe/flex-template-web/pull/969)
 
